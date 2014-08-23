@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
+// 首先调用，这句话就起作用了
+console.info('hexo cmd');
+
 var args = require('minimist')(process.argv.slice(2)),
   fs = require('graceful-fs'),
   path = require('path'),
   async = require('async'),
+  // 首先调用的是lib/init文件
   init = require('../lib/init'),
   cwd = process.cwd(),
   lastCwd = cwd;
