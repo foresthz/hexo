@@ -3,6 +3,7 @@
 // 首先调用，这句话就起作用了
 console.info('hexo cmd');
 
+// 初始化了一堆变量
 var args = require('minimist')(process.argv.slice(2)),
   fs = require('graceful-fs'),
   path = require('path'),
@@ -12,7 +13,9 @@ var args = require('minimist')(process.argv.slice(2)),
   cwd = process.cwd(),
   lastCwd = cwd;
 
+
 // Find Hexo folder recursively
+// async包都有哪些用处呢?
 async.doUntil(
   function(next){
     var configFile = path.join(cwd, '_config.yml');
