@@ -1,13 +1,15 @@
-var Promise = require('bluebird');
+'use strict';
 
-function readStream(stream){
-  return new Promise(function(resolve, reject){
-    var data = [];
+const Promise = require('bluebird');
 
-    stream.on('data', function(chunk){
-      data.push(chunk);
-    }).on('end', function(){
-      resolve(Buffer.concat(data).toString());
+function readStream(stream) {
+  return new Promise((resolve, reject) => {
+    let data = '';
+
+    stream.on('data', chunk => {
+      data += chunk.toString();
+    }).on('end', () => {
+      resolve(data);
     }).on('error', reject);
   });
 }

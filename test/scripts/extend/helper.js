@@ -1,21 +1,20 @@
 'use strict';
 
-var should = require('chai').should();
+describe('Helper', () => {
+  const Helper = require('../../../lib/extend/helper');
 
-describe('Helper', function(){
-  var Helper = require('../../../lib/extend/helper');
-
-  it('register()', function(){
-    var h = new Helper();
+  it('register()', () => {
+    const h = new Helper();
 
     // name, fn
-    h.register('test', function(){});
+    h.register('test', () => {});
+
     h.get('test').should.exist;
 
     // no fn
     try {
       h.register('test');
-    } catch (err){
+    } catch (err) {
       err.should.be
         .instanceOf(TypeError)
         .property('message', 'fn must be a function');
@@ -24,24 +23,26 @@ describe('Helper', function(){
     // no name
     try {
       h.register();
-    } catch (err){
+    } catch (err) {
       err.should.be
         .instanceOf(TypeError)
         .property('message', 'name is required');
     }
   });
 
-  it('list()', function(){
-    var h = new Helper();
+  it('list()', () => {
+    const h = new Helper();
 
-    h.register('test', function(){});
+    h.register('test', () => {});
+
     h.list().should.have.keys(['test']);
   });
 
-  it('get()', function(){
-    var h = new Helper();
+  it('get()', () => {
+    const h = new Helper();
 
-    h.register('test', function(){});
+    h.register('test', () => {});
+
     h.get('test').should.exist;
   });
 });

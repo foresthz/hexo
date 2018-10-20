@@ -1,13 +1,10 @@
 'use strict';
 
-var should = require('chai').should();
-var fs = require('hexo-fs');
+describe('swig', () => {
+  const r = require('../../../lib/plugins/renderer/swig');
 
-describe('swig', function(){
-  var r = require('../../../lib/plugins/renderer/swig');
-
-  it('normal', function(){
-    var body = [
+  it('normal', () => {
+    const body = [
       'Hello {{ name }}!'
     ].join('\n');
 
@@ -16,21 +13,35 @@ describe('swig', function(){
     }).should.eql('Hello world!');
   });
 
-  it('override "for" tag', function(){
-    var body = [
+  it('override "for" tag', () => {
+    const body = [
       '{% for x in arr %}',
       '{{ x }}',
       '{% endfor %}'
     ].join('');
 
-    var data = {
+    const data = {
       arr: {
-        toArray: function(){
+        toArray() {
           return [1, 2, 3];
         }
       }
     };
 
     r({text: body}, data).should.eql('123');
+  });
+
+  it('compile', () => {
+    const body = [
+      'Hello {{ name }}!'
+    ].join('\n');
+
+    const render = r.compile({
+      text: body
+    });
+
+    render({
+      name: 'world'
+    }).should.eql('Hello world!');
   });
 });

@@ -1,9 +1,8 @@
 'use strict';
 
-describe('Models', function(){
+describe('Models', () => {
   require('./asset');
   require('./cache');
-  require('./cachestring');
   require('./category');
   require('./moment');
   require('./page');

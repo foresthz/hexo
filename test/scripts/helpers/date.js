@@ -1,30 +1,29 @@
 'use strict';
 
-var moment = require('moment-timezone');
-var should = require('chai').should();
-var sinon = require('sinon');
+const moment = require('moment-timezone');
+const sinon = require('sinon');
 
-describe('date', function(){
-  var Hexo = require('../../../lib/hexo');
-  var hexo = new Hexo();
-  var dateHelper = require('../../../lib/plugins/helper/date');
-  var clock;
+describe('date', () => {
+  const Hexo = require('../../../lib/hexo');
+  const hexo = new Hexo();
+  const dateHelper = require('../../../lib/plugins/helper/date');
+  let clock;
 
-  before(function(){
+  before(() => {
     clock = sinon.useFakeTimers(Date.now());
   });
 
-  after(function(){
+  after(() => {
     clock.restore();
   });
 
-  it('date', function(){
-    var ctx = {
+  it('date', () => {
+    const ctx = {
       config: hexo.config,
       page: {}
     };
 
-    var date = dateHelper.date.bind(ctx);
+    const date = dateHelper.date.bind(ctx);
 
     // now
     date().should.eql(moment().format(hexo.config.date_format));
@@ -57,8 +56,8 @@ describe('date', function(){
     ctx.config.timezone = '';
   });
 
-  it('date_xml', function(){
-    var dateXML = dateHelper.date_xml;
+  it('date_xml', () => {
+    const dateXML = dateHelper.date_xml;
 
     // now
     dateXML().should.eql(moment().toISOString());
@@ -73,13 +72,34 @@ describe('date', function(){
     dateXML(Date.now()).should.eql(moment().toISOString());
   });
 
-  it('time', function(){
-    var ctx = {
+  it('relative_date', () => {
+    const ctx = {
       config: hexo.config,
       page: {}
     };
 
-    var time = dateHelper.time.bind(ctx);
+    const relativeDate = dateHelper.relative_date.bind(ctx);
+
+    // now
+    relativeDate().should.eql(moment().fromNow());
+
+    // moment
+    relativeDate(moment()).should.eql(moment().fromNow());
+
+    // date
+    relativeDate(new Date()).should.eql(moment().fromNow());
+
+    // number
+    relativeDate(Date.now()).should.eql(moment().fromNow());
+  });
+
+  it('time', () => {
+    const ctx = {
+      config: hexo.config,
+      page: {}
+    };
+
+    const time = dateHelper.time.bind(ctx);
 
     // now
     time().should.eql(moment().format(hexo.config.time_format));
@@ -112,16 +132,16 @@ describe('date', function(){
     ctx.config.timezone = '';
   });
 
-  it('full_date', function(){
-    var ctx = {
+  it('full_date', () => {
+    const ctx = {
       config: hexo.config,
       date: dateHelper.date,
       time: dateHelper.time,
       page: {}
     };
 
-    var fullDate = dateHelper.full_date.bind(ctx);
-    var fullDateFormat = hexo.config.date_format + ' ' + hexo.config.time_format;
+    const fullDate = dateHelper.full_date.bind(ctx);
+    const fullDateFormat = hexo.config.date_format + ' ' + hexo.config.time_format;
 
     // now
     fullDate().should.eql(moment().format(fullDateFormat));
@@ -154,22 +174,22 @@ describe('date', function(){
     ctx.config.timezone = '';
   });
 
-  it('time_tag', function(){
-    var ctx = {
+  it('time_tag', () => {
+    const ctx = {
       config: hexo.config,
       date: dateHelper.date,
       page: {}
     };
 
-    var timeTag = dateHelper.time_tag.bind(ctx);
+    const timeTag = dateHelper.time_tag.bind(ctx);
 
-    function result(date, format){
+    function result(date, format) {
       date = date || new Date();
       format = format || hexo.config.date_format;
       return '<time datetime="' + moment(date).toISOString() + '">' + moment(date).format(format) + '</time>';
     }
 
-    function check(date, format){
+    function check(date, format) {
       format = format || hexo.config.date_format;
       timeTag(date, format).should.eql(result(date, format));
     }

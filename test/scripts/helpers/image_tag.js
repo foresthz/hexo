@@ -1,34 +1,32 @@
 'use strict';
 
-var should = require('chai').should();
+describe('image_tag', () => {
+  const Hexo = require('../../../lib/hexo');
+  const hexo = new Hexo(__dirname);
 
-describe('image_tag', function(){
-  var Hexo = require('../../../lib/hexo');
-  var hexo = new Hexo(__dirname);
-
-  var ctx = {
+  const ctx = {
     config: hexo.config
   };
 
   ctx.url_for = require('../../../lib/plugins/helper/url_for').bind(ctx);
 
-  var img = require('../../../lib/plugins/helper/image_tag').bind(ctx);
+  const img = require('../../../lib/plugins/helper/image_tag').bind(ctx);
 
-  it('path', function(){
+  it('path', () => {
     img('http://hexo.io/image.jpg').should.eql('<img src="http://hexo.io/image.jpg">');
   });
 
-  it('class (string)', function(){
+  it('class (string)', () => {
     img('http://hexo.io/image.jpg', {class: 'foo'})
       .should.eql('<img src="http://hexo.io/image.jpg" class="foo">');
   });
 
-  it('class (array)', function(){
+  it('class (array)', () => {
     img('http://hexo.io/image.jpg', {class: ['foo', 'bar']})
       .should.eql('<img src="http://hexo.io/image.jpg" class="foo bar">');
   });
 
-  it('alt', function(){
+  it('alt', () => {
     img('http://hexo.io/image.jpg', {alt: 'Image caption'})
       .should.eql('<img src="http://hexo.io/image.jpg" alt="Image caption">');
   });

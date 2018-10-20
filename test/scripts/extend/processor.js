@@ -1,36 +1,36 @@
 'use strict';
 
-var should = require('chai').should();
-var Pattern = require('hexo-util').Pattern;
+describe('Processor', () => {
+  const Processor = require('../../../lib/extend/processor');
 
-describe('Processor', function(){
-  var Processor = require('../../../lib/extend/processor');
-
-  it('register()', function(){
-    var p = new Processor();
+  it('register()', () => {
+    const p = new Processor();
 
     // pattern, fn
-    p.register('test', function(){});
+    p.register('test', () => {});
+
     p.list()[0].should.exist;
 
     // fn
-    p.register(function(){});
+    p.register(() => {});
+
     p.list()[1].should.exist;
 
     // no fn
     try {
       p.register();
-    } catch (err){
+    } catch (err) {
       err.should.be
         .instanceOf(TypeError)
         .property('message', 'fn must be a function');
     }
   });
 
-  it('list()', function(){
-    var p = new Processor();
+  it('list()', () => {
+    const p = new Processor();
 
-    p.register('test', function(){});
+    p.register('test', () => {});
+
     p.list().length.should.eql(1);
   });
 });

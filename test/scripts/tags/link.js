@@ -1,20 +1,19 @@
 'use strict';
 
-var cheerio = require('cheerio');
-var should = require('chai').should();
+const cheerio = require('cheerio');
 
-describe('link', function(){
-  var link = require('../../../lib/plugins/tag/link');
+describe('link', () => {
+  const link = require('../../../lib/plugins/tag/link');
 
-  it('text + url', function(){
-    var $ = cheerio.load(link('Click here to Google http://google.com'.split(' ')));
+  it('text + url', () => {
+    const $ = cheerio.load(link('Click here to Google http://google.com'.split(' ')));
 
     $('a').attr('href').should.eql('http://google.com');
     $('a').html().should.eql('Click here to Google');
   });
 
-  it('text + url + external', function(){
-    var $ = cheerio.load(link('Click here to Google http://google.com true'.split(' ')));
+  it('text + url + external', () => {
+    let $ = cheerio.load(link('Click here to Google http://google.com true'.split(' ')));
 
     $('a').attr('href').should.eql('http://google.com');
     $('a').html().should.eql('Click here to Google');
@@ -27,16 +26,16 @@ describe('link', function(){
     should.not.exist($('a').attr('target'));
   });
 
-  it('text + url + title', function(){
-    var $ = cheerio.load(link('Click here to Google http://google.com Google link'.split(' ')));
+  it('text + url + title', () => {
+    const $ = cheerio.load(link('Click here to Google http://google.com Google link'.split(' ')));
 
     $('a').attr('href').should.eql('http://google.com');
     $('a').html().should.eql('Click here to Google');
     $('a').attr('title').should.eql('Google link');
   });
 
-  it('text + url + external + title', function(){
-    var $ = cheerio.load(link('Click here to Google http://google.com true Google link'.split(' ')));
+  it('text + url + external + title', () => {
+    let $ = cheerio.load(link('Click here to Google http://google.com true Google link'.split(' ')));
 
     $('a').attr('href').should.eql('http://google.com');
     $('a').html().should.eql('Click here to Google');

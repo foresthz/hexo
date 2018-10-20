@@ -1,13 +1,12 @@
 'use strict';
 
-var cheerio = require('cheerio');
-var should = require('chai').should();
+const cheerio = require('cheerio');
 
-describe('iframe', function(){
-  var iframe = require('../../../lib/plugins/tag/iframe');
+describe('iframe', () => {
+  const iframe = require('../../../lib/plugins/tag/iframe');
 
-  it('url', function(){
-    var $ = cheerio.load(iframe(['http://zespia.tw']));
+  it('url', () => {
+    const $ = cheerio.load(iframe(['http://zespia.tw']));
 
     $('iframe').attr('src').should.eql('http://zespia.tw');
     $('iframe').attr('width').should.eql('100%');
@@ -16,8 +15,8 @@ describe('iframe', function(){
     $('iframe').attr('allowfullscreen').should.eql('');
   });
 
-  it('width', function(){
-    var $ = cheerio.load(iframe(['http://zespia.tw', '500']));
+  it('width', () => {
+    const $ = cheerio.load(iframe(['http://zespia.tw', '500']));
 
     $('iframe').attr('src').should.eql('http://zespia.tw');
     $('iframe').attr('width').should.eql('500');
@@ -26,8 +25,8 @@ describe('iframe', function(){
     $('iframe').attr('allowfullscreen').should.eql('');
   });
 
-  it('height', function(){
-    var $ = cheerio.load(iframe(['http://zespia.tw', '500', '600']));
+  it('height', () => {
+    const $ = cheerio.load(iframe(['http://zespia.tw', '500', '600']));
 
     $('iframe').attr('src').should.eql('http://zespia.tw');
     $('iframe').attr('width').should.eql('500');
